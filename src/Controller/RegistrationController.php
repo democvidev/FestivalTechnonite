@@ -65,6 +65,7 @@ class RegistrationController extends AbstractController
             // );
 
             // On retourne au formulaire de connexion
+            $this->addFlash('success', 'A confirmation email has been sent to your inbox. Please confirm your new account.');
             return $this->redirectToRoute('app_login');
         }
 
