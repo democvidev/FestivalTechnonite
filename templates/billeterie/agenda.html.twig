@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Agenda !
+{% endblock %}
+
+{% block body %}
+	<table class="table table-hover mb-5 mt-4">
+		<thead>
+			<tr hidden>
+				<th scope="col">Date</th>
+				<th scope="col">Time</th>
+				<th scope="col">Artist</th>
+				<th scope="col">Reservation</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for item in agendaList %}
+				<tr class="table-active text-center" style="border: 1px solid blue">
+					<td class="text-center">{{ item.Date }}</td>
+					<td class="text-center">{{ item.Time }}</td>
+					<td class="text-center">{{ item.Artist }}</td>
+					<td class="text-center">
+						<a href="#" type="button" class="btn btn-primary">{{ item.Reservation }}</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}
