@@ -22,7 +22,7 @@
 						<a class="nav-link" href="{{ path('artist_home') }}">Artistes</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Billeterie</a>
+						<a class="nav-link" href="{{ path('billeterie_form') }}">Billeterie</a>
 					</li>
 					{% if not is_granted("ROLE_USER") %}
 					<li class="nav-item">
