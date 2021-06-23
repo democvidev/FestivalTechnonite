@@ -28,9 +28,16 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, UserAuthenticator $authenticator): Response
-    {
-        
+    public function register(
+        Request $request,
+        UserPasswordEncoderInterface $passwordEncoder,
+        GuardAuthenticatorHandler $guardHandler,
+        UserAuthenticator $authenticator
+    ): Response {
+        // empêcher d'accéder aux vues login.html.twig et register.html.twig lorsqu'un utilisateur est connecté 
+        if ($this->getUser()) {
+            return $this->redirectToRoute('home_index');
+        }
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -49,7 +56,9 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            $this->emailVerifier->sendEmailConfirmation(
+                'app_verify_email',
+                $user,
                 (new TemplatedEmail())
                     ->from(new Address('no-reply@mail.com', 'MyCompany'))
                     ->to($user->getEmail())
@@ -66,7 +75,10 @@ class RegistrationController extends AbstractController
             // );
 
             // On retourne au formulaire de connexion
-            $this->addFlash('success', 'A confirmation email has been sent to your inbox. Please confirm your new account.');
+            $this->addFlash(
+                'success',
+                'A confirmation email has been sent to your inbox. Please confirm your new account.'
+            );
             return $this->redirectToRoute('app_login');
         }
 
@@ -84,7 +96,10 @@ class RegistrationController extends AbstractController
 
         // validate email confirmation link, sets User::isVerified=true and persists
         try {
-            $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
+            $this->emailVerifier->handleEmailConfirmation(
+                $request,
+                $this->getUser()
+            );
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $exception->getReason());
 

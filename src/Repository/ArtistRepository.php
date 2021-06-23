@@ -19,6 +19,41 @@ class ArtistRepository extends ServiceEntityRepository
         parent::__construct($registry, Artist::class);
     }
 
+
+
+    /**
+     * @return Artist[] Returns an array of Artist objects
+     */    
+    public function findByCategory(int $category = null)
+    {
+        $query = $this->createQueryBuilder('a')
+            ->select('a.name' , 'a.isLive', 'a.description')
+            // ->innerJoin('c.id', 'a', 'WITH', 'a.category = c.id')
+            // ->andWhere('c.id = :val')
+            // ->setParameter('val', $value)
+            // ->getQuery()
+            // ->getResult()
+
+            // innerJoin('c.phones', 'p', Join::ON, 'c.id = p.customerId')
+
+
+            // ->andWhere('a.exampleField = :val')
+            // ->setParameter('val', $value)
+            // ->orderBy('a.id', 'ASC')
+            // ->setMaxResults(10)
+            // ->getQuery()
+            // ->getResult()
+        ;
+
+
+        // $qb->select('c')
+        // ->innerJoin('c.phones', 'p', 'WITH', 'p.phone = :phone')
+        // ->where('c.username = :username');
+        return $query->getQuery()->getResult();
+    }
+    
+
+
     // /**
     //  * @return Artist[] Returns an array of Artist objects
     //  */
