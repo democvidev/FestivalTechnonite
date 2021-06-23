@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\BilleterieFormType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BilleterieController extends AbstractController
 {
@@ -26,6 +27,19 @@ class BilleterieController extends AbstractController
         }
         return $this->render('billeterie/agenda.html.twig', [
             'agendaList' => $agendaList
+        ]);
+    }    
+
+     /**
+     * @Route("/billeterie", name="billeterie_form")
+     */
+    public function form(): Response
+    {
+        $form = $this->createForm(BilleterieFormType::class);
+       
+        
+        return $this->render('billeterie/form.html.twig', [
+            'form' => $form->createView()
         ]);
     }    
 }
