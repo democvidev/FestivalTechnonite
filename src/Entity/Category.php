@@ -29,6 +29,11 @@ class Category
      */
     private $artists;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $color;
+
     public function __construct()
     {
         $this->artists = new ArrayCollection();
@@ -77,6 +82,18 @@ class Category
                 $artist->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }

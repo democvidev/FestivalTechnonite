@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Artist;
 use App\Repository\ArtistRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,14 +14,16 @@ class ArtistController extends AbstractController
     /**
      * @Route("/artist", name="artist_home")
      */
-    public function home(): Response
+    public function home(CategoryRepository $categoryRepository): Response
     {
         $artists = $this->getDoctrine()->getRepository(Artist::class)->findAll();
+        $categories = $categoryRepository->findAll();
 
         // dd($artists);
 
         return $this->render('artist/home.html.twig', [
             'artists' => $artists,
+            'categories' => $categories
         ]);
     }
 
@@ -39,15 +42,14 @@ class ArtistController extends AbstractController
     /**
      * @Route("/artist/category/{id}", name="artist_view_by_category", methods={"GET"}, requirements={"id"="\d+"})
      */
-    public function viewByCategory($id, ArtistRepository $artistRepository): Response
+    public function viewByCategory($id, ArtistRepository $artistRepository, CategoryRepository $categoryRepository): Response
     {
-
-        $artist = $artistRepository->findByCategory($id);
-
-        dd($artist);
-
-        return $this->render('artist/view.html.twig', [
-            'artist' => $artist,
+        $artists = $artistRepository->findByCategory($id);
+        $categories = $categoryRepository->findAll();
+        // dd($artists);
+        return $this->render('artist/home.html.twig', [
+            'artists' => $artists,
+            'categories' => $categories
         ]);
     }
 }

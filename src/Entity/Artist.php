@@ -32,6 +32,21 @@ class Artist
      */
     private $category;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $concert;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photo;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +84,42 @@ class Artist
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getConcert(): ?int
+    {
+        return $this->concert;
+    }
+
+    public function setConcert(?int $concert): self
+    {
+        $this->concert = $concert;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

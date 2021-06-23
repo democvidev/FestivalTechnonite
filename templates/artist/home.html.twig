@@ -1,38 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ArtistController!{% endblock %}
+{% block title %}Hello ArtistController!
+{% endblock %}
 
 {% block body %}
 
-<div class="text-center mb-5 mt-5">
-    <button type="button" class="btn btn-outline-primary">Cat1</button>
-    <button type="button" class="btn btn-outline-secondary">Cat2</button>
-    <button type="button" class="btn btn-outline-success">Cat3</button>
-    <button type="button" class="btn btn-outline-info">Cat4</button>
-    <button type="button" class="btn btn-outline-warning">Cat5</button>
-</div>
-
-<div class=" row">
-
-
-
-<div class="row mt-5">
-        {% for i in 0..20 %}
-            <div class="col-4">
-                
-                <div class="card border-secondary mb-5" style="max-width: 23rem;">
-                
-                    <div class="card-header align-self-end"><span class="badge rounded-pill bg-secondary">En Concert</span></div>
-                    <div class="card-body">
-                        <h4 class="card-title">Artiste {{ i }}</h4>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content...</p>
-                        <p class="card-text"><a href={{ path('artist_view', {'id':2}) }}>Decouvrir l'artiste</a></p>
-                    </div>
-                
-                </div>
-                
-            </div>
-        {% endfor %}
-    </div>
-
-{% endblock %}
+	<div class="text-center mb-5 mt-5">
+		{% for category in categories %}
+			<button type="button" class="btn btn-outline-{{ category.color }}">
+				<a href="{{ path('artist_view_by_category', {'id': category.id}) }}">{{ category.name }}</a>
+			</button>
+		{% endfor %}
+	</div>
+	<div class=" row">
+		<div class="row mt-5">
+			{% for artist in artists %}
+				<div class="col-4">
+					<div class="card border-{{ artist.category.color }} mb-5" style="max-width: 23rem; min-height:15rem">
+						<div class="card-header align-self-end">
+							<span class="badge rounded-pill bg-{{ (artist.concert is same as null) ? 'primary' : 'secondary' }}">{{ (artist.concert is same as null) ? 'Music de rue' : 'En Concert' }}</span>
+						</div>
+						<div class="card-body">
+							<h4 class="card-title">
+								{{ artist.name }}</h4>
+							<p class="card-text">{{ artist.description | u.truncate(100, '...') }}</p>
+							<p class="card-text">
+								<a href={{ path('artist_view', {'id':artist.id} ) }}>Decouvrir l'artiste</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	{% endblock %}
