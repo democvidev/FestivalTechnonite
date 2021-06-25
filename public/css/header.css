@@ -8,7 +8,7 @@ header {
     min-height: 50vh;
 }
 
-#festTitle, #festSent {
+#festTitle, .festSent {
   margin-top: 0;
   margin-bottom: 0.5rem;
   font-weight: 500;
@@ -25,12 +25,12 @@ header {
   }
 }
 
-#festSent {
+.festSent {
   font-size: calc(1.325rem + 0.9vw);
 }
 
 @media (min-width: 1200px) {
-  #festSent {
+  .festSent {
     font-size: 2rem;
   }
 }
