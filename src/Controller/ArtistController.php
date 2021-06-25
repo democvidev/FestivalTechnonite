@@ -14,11 +14,11 @@ class ArtistController extends AbstractController
     /**
      * @Route("/artist", name="artist_home")
      */
-    public function home(CategoryRepository $categoryRepository): Response
+    public function home(CategoryRepository $categoryRepository, ArtistRepository $artistRepository): Response
     {
-        // recupère le tableau remplie des objets 
-        $artists = $this->getDoctrine()->getRepository(Artist::class)->findAll();
-        $categories = $categoryRepository->findAll(); // injection de dépendances
+        // recupère le tableau remplie des objets par injection de dépendances
+        $artists = $artistRepository->findAll();
+        $categories = $categoryRepository->findAll(); 
 
         // dd($artists);
 

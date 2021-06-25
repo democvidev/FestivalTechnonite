@@ -7,9 +7,7 @@
 
 	<div class="text-center mb-5 mt-5">
 		{% for category in categories %}
-			<button type="button" class="btn btn-outline-{{ category.color }}">
-				<a href="{{ path('artist_view_by_category', {'id': category.id}) }}">{{ category.name }}</a>
-			</button>
+			<a href="{{ path('artist_view_by_category', {'id':category.id}) }}" role="button" class="btn btn-outline-{{category.color}} mx-1">{{category.name}}</a>
 		{% endfor %}
 	</div>
 	<div class=" row">
