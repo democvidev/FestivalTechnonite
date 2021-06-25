@@ -16,7 +16,7 @@ class ArtistFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
 
 
-        for($nbArtists = 1; $nbArtists <= 30; $nbArtists++ ) {
+        for($nbArtists = 1; $nbArtists <= 100; $nbArtists++ ) {
             $category = $this->getReference('category_' . $faker->numberBetween(1, 5));
             $artist = new Artist;
             $artist->setCategory($category);
