@@ -21,7 +21,7 @@ class BilleterieFormType extends AbstractType
             ->add('Nom', TextType::class)
             ->add('Prenom', TextType::class)
             ->add('Telephone', TextType::class)
-            ->add('Email', EmailType::class)
+            // ->add('Email', EmailType::class)
             ->add('Artiste', TextType::class)
             ->add('Date', DateType::class, [
                 'widget' => 'single_text',
