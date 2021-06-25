@@ -22,8 +22,8 @@
 	</head>
 	<body>
 
-		{% include "home/shared/_header.html.twig" %}
-		{% include "home/shared/_nav.html.twig" %}
+		{% include "shared/_header.html.twig" %}
+		{% include "shared/_nav.html.twig" %}
 		{% for flashError in app.flashes('verify_email_error') %}
 			<div class="alert alert-danger" role="alert">{{ flashError }}</div>
 		{% endfor %}

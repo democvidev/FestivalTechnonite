@@ -25,7 +25,7 @@ class ArtistFixtures extends Fixture implements DependentFixtureInterface
             $artist->setIsLive($faker->numberBetween(0, 1));
             $manager->persist($artist);
         }
-        $manager->flush();
+        $manager->flush(); // on contacte la bdd une seule fois pour la populer
     }
 
     public function getDependencies()
