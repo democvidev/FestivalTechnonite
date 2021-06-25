@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use Faker;
+use Faker\Factory;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -20,7 +20,7 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $faker = Faker\Factory::create('fr_FR'); //population de jeu de fausses données en français
+        $faker = Factory::create('fr_FR'); //population de jeu de fausses données en français
 
         for($nbUsers = 1; $nbUsers <=20; $nbUsers++){
             $user = new User;

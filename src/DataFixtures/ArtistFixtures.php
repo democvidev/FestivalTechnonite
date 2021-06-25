@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use Faker;
+use Faker\Factory;
 use App\Entity\Artist;
 use App\DataFixtures\CategoryFixtures;
 use Doctrine\Persistence\ObjectManager;
@@ -13,13 +13,19 @@ class ArtistFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $faker = Faker\Factory::create('fr_FR');
+        $faker = Factory::create('fr_FR');
+
 
         for($nbArtists = 1; $nbArtists <= 30; $nbArtists++ ) {
             $category = $this->getReference('category_' . $faker->numberBetween(1, 5));
             $artist = new Artist;
             $artist->setCategory($category);
-            $artist->setConcert($faker->numberBetween(1, 9));
+            // 1 foi sur 10 il aura des aristes sans concert
+            if(rand(1, 100) >= 10){
+                $artist->setConcert($faker->numberBetween(1, 9));
+            } else {
+                $artist->setConcert(NULL);
+            }
             $artist->setName($faker->lastName);
             $artist->setDescription($faker->realText(5000));
             $artist->setIsLive($faker->numberBetween(0, 1));

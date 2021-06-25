@@ -16,8 +16,9 @@ class ArtistController extends AbstractController
      */
     public function home(CategoryRepository $categoryRepository): Response
     {
+        // recupère le tableau remplie des objets 
         $artists = $this->getDoctrine()->getRepository(Artist::class)->findAll();
-        $categories = $categoryRepository->findAll();
+        $categories = $categoryRepository->findAll(); // injection de dépendances
 
         // dd($artists);
 
