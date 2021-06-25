@@ -22,10 +22,6 @@ class Artist
      */
     private $name;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isLive;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="artists")
@@ -60,18 +56,6 @@ class Artist
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getIsLive(): ?bool
-    {
-        return $this->isLive;
-    }
-
-    public function setIsLive(bool $isLive): self
-    {
-        $this->isLive = $isLive;
 
         return $this;
     }
