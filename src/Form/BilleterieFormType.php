@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -42,8 +43,13 @@ class BilleterieFormType extends AbstractType
                     'max' => "2021-08-22",
                 ],
             ])
-            ->add('hour', TextType::class, [
+            ->add('hour', ChoiceType::class, [
                 'label' => 'Horaire',
+                'choices' => [
+                    '16h-18h' => '16h-18h',
+                    '18h-20h' => '18h-20h',
+                    '21h-23h' => '21h-23h'
+                ]
             ])
             ->add('nbOfPlace', IntegerType::class, [
                 'label' => 'Nombre de places',

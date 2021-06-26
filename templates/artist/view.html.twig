@@ -2,7 +2,7 @@
 
 {% block title %}Hello ArtistController!{% endblock %}
 {% block body %}
-<div class="card border-{{ artist.category.color }} mb-3 mt-5" style="max-width: 100%;">
+<div class="card border-{{ artist.category.color | default('dark') }} mb-3 mt-5" style="max-width: 100%;">
   <div class="card-body">
     <h1 class="card-title">{{ artist.name }}</h1>
     <p class="card-text">{{ artist.description }}</p>

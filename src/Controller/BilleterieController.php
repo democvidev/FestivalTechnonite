@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\BilleterieFormType;
+use App\Repository\ArtistRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,18 +15,26 @@ class BilleterieController extends AbstractController
     /**
      * @Route("/agenda", name="billeterie_agenda")
      */
-    public function agenda(): Response
+    public function agenda(ArtistRepository $artistRepository): Response
     {
-        $agendaList = [];
-        for ($i = 0; $i < 9; $i++) {
-            $row = [
-                'Date' => '20/08/2021',
-                'Time' => '16h-18h',
-                'Artist' => 'artist n°' . $i,
-                'Reservation' => 'Reserver une place',
-            ];
-            $agendaList[] = $row;
+        $artists = $artistRepository->findByConcert(); // les artistes de tous les 9 concerts dans l'ordre ASC
+        $agendaList = []; // on va stocker les données de chaque artiste et son concert        
+        $date = ['20/08/2021', '21/08/2021', '22/08/2021']; // tableau avec les dates des concerts
+        $hour = ['16h-18h', '18h-20h', '21h-23h']; // tableau avec les plages horaires de chaque journée
+        $concert = 0; // compteur des concerts de 0 à 8
+        for ($i = 0; $i < count($date); $i++) {
+            for ($j = 0; $j < count($hour); $j++) {
+                $row = [
+                    'Date' => $date[$i],
+                    'Time' => $hour[$j],
+                    'Artist' => $artists[$concert],
+                    'Reservation' => 'Reserver une place',
+                ];
+                $concert++;
+                $agendaList[] = $row;
+            }
         }
+        // dd($agendaList);
         return $this->render('billeterie/agenda.html.twig', [
             'agendaList' => $agendaList,
         ]);
@@ -44,8 +53,8 @@ class BilleterieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $data += ["email" => $user->getEmail()];
-            // dd($data);  
+            $data += ['email' => $user->getEmail()];
+            // dd($data);
 
             //fabriquation du mail
             $message = (new \Swift_Message('Nouvelle Réservation'))

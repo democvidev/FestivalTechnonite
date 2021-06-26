@@ -18,9 +18,9 @@
 				<tr class="table-active text-center" style="border: 1px solid blue">
 					<td class="text-center">{{ item.Date }}</td>
 					<td class="text-center">{{ item.Time }}</td>
-					<td class="text-center">{{ item.Artist }}</td>
+					<td class="text-center"><a class="btn btn-outline" href={{ path('artist_view', {'id':item['Artist']['id']} ) }}>{{ item['Artist']['name'] }}</a></td>
 					<td class="text-center">
-						<a href="#" type="button" class="btn btn-primary">{{ item.Reservation }}</a>
+						<a href="{{ path('billeterie_form') }}" type="button" class="btn btn-primary">{{ item.Reservation }}</a>
 					</td>
 				</tr>
 			{% endfor %}
