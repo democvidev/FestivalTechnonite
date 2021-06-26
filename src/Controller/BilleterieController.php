@@ -44,6 +44,8 @@ class BilleterieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+            $data += ["email" => $user->getEmail()];
+            // dd($data);  
 
             //fabriquation du mail
             $message = (new \Swift_Message('Nouvelle Réservation'))

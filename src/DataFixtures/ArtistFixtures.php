@@ -19,8 +19,14 @@ class ArtistFixtures extends Fixture implements DependentFixtureInterface
         for($nbArtists = 1; $nbArtists <= 100; $nbArtists++ ) {
             $category = $this->getReference('category_' . $faker->numberBetween(1, 5));
             $artist = new Artist;
-            $artist->setCategory($category);
-            // 1 foi sur 10 il aura des aristes sans concert
+            // 2 fois sur 10 il y aura des aristes sans categorie
+            if(rand(1, 100) >= 20){
+                $artist->setCategory($category);
+            } else {
+                $artist->setCategory(NULL);
+            }
+            
+            // 1 fois sur 10 il y aura des aristes sans concert
             if(rand(1, 100) >= 10){
                 $artist->setConcert($faker->numberBetween(1, 9));
             } else {

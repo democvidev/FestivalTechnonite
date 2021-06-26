@@ -13,7 +13,7 @@
 	<div class="row mt-5">
 		{% for artist in artists %}
 			<div class="col-4">
-				<div class="card border-{{ artist.category.color }} mb-5" style="max-width: 23rem; min-height:15rem">
+				<div class="card border-{{ artist.category.color | default('dark') }} mb-5" style="max-width: 23rem; min-height:15rem">
 					<div class="card-header align-self-end">
 						<span class="badge rounded-pill bg-{{ (artist.concert is same as null) ? 'primary' : 'secondary' }}">{{ (artist.concert is same as null) ? 'Music de rue' : 'En Concert' }}</span>
 					</div>

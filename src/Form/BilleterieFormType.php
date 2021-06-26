@@ -18,20 +18,42 @@ class BilleterieFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('Nom', TextType::class)
-            ->add('Prenom', TextType::class)
-            ->add('Telephone', TextType::class)
+            ->add('lastName', TextType::class, [
+                'label' => 'Nom',
+            ])
+            ->add('firstName', TextType::class, [
+                'label' => 'Prénom',
+            ])
+            ->add('phone', TextType::class, [
+                'label' => 'Téléphone',
+            ])
             // ->add('Email', EmailType::class)
-            ->add('Artiste', TextType::class)
-            ->add('Date', DateType::class, [
+            ->add('artist', TextType::class, [
+                'label' => 'Artiste',
+            ])
+            ->add('date', DateType::class, [
+                'label' => 'Date',
                 'widget' => 'single_text',
                 // this is actually the default format for single_text
                 'format' => 'yyyy-MM-dd',
+                'attr' => [
+                    'value'=> "2021-08-20",
+                    'min' => "2021-08-20",
+                    'max' => "2021-08-22",
+                ],
             ])
-            ->add('Heure', TextType::class)
-            ->add('Nombredeplace', IntegerType::class)
-            ->add('Envoyer', SubmitType::class)
-        ;
+            ->add('hour', TextType::class, [
+                'label' => 'Horaire',
+            ])
+            ->add('nbOfPlace', IntegerType::class, [
+                'label' => 'Nombre de places',
+                'attr' => [
+                    'value' => "1",
+                    'min' => "1", 
+                    'max' => "100"
+                ]
+            ])
+            ->add('submit', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -4,6 +4,35 @@
 {% endblock %}
 
 {% block body %}
-	{{form(form)}}
+
+	{{ form_start(form) }}
+	<div class="row justify-content-center align-items-center">
+		<div class="col-md-12 col-xl-4">
+			{{ form_row(form.lastName) }}
+		</div>
+		<div class="col-md-12 col-xl-4">
+			{{ form_row(form.firstName) }}
+		</div>
+		<div class="col-md-6 col-xl-4">
+			{{ form_row(form.phone) }}
+		</div>
+		<div class="col-md-6 col-xl-3">
+			{{ form_row(form.artist) }}
+		</div>
+		<div class="col-md-4 col-xl-3">
+			{{ form_row(form.date) }}
+		</div>
+		<div class="col-md-4 col-xl-3">
+			{{ form_row(form.hour) }}
+		</div>
+		<div class="col-md-4 col-xl-3">
+			{{ form_row(form.nbOfPlace) }}
+		</div>
+	</div>
+	<div class="d-flex justify-content-end mt-2">
+		{{ form_row(form.submit, { 'label': 'Envoyer' }) }}
+	</div>
+	{{ form_end(form) }}
+
 
 {% endblock %}
