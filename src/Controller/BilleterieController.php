@@ -2,39 +2,24 @@
 
 namespace App\Controller;
 
+use App\Service\ArtistHandler;
 use App\Form\BilleterieFormType;
 use App\Repository\ArtistRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BilleterieController extends AbstractController
 {
     /**
      * @Route("/agenda", name="billeterie_agenda")
      */
-    public function agenda(ArtistRepository $artistRepository): Response
+    public function agenda(ArtistRepository $artistRepository, ArtistHandler $artistHandler): Response
     {
         $artists = $artistRepository->findByConcert(); // les artistes de tous les 9 concerts dans l'ordre ASC
-        $agendaList = []; // on va stocker les données de chaque artiste et son concert        
-        $date = ['20/08/2021', '21/08/2021', '22/08/2021']; // tableau avec les dates des concerts
-        $hour = ['16h-18h', '18h-20h', '21h-23h']; // tableau avec les plages horaires de chaque journée
-        $concert = 0; // compteur des concerts de 0 à 8
-        for ($i = 0; $i < count($date); $i++) {
-            for ($j = 0; $j < count($hour); $j++) {
-                $row = [
-                    'Date' => $date[$i],
-                    'Time' => $hour[$j],
-                    'Artist' => $artists[$concert],
-                    'Reservation' => 'Reserver une place',
-                ];
-                $concert++;
-                $agendaList[] = $row;
-            }
-        }
-        // dd($agendaList);
+        $agendaList = $artistHandler->handle($artists); // le service retourne l'agenda des concerts        
         return $this->render('billeterie/agenda.html.twig', [
             'agendaList' => $agendaList,
         ]);
@@ -75,6 +60,20 @@ class BilleterieController extends AbstractController
                 'Votre réservation a bien été envoyée !'
             );
             return $this->redirectToRoute('home_index');
+        } else{            
+            // préremplissage du formulaire
+            if($request->get('date') != null){
+                $startDay = \DateTime::createFromFormat('d/m/Y', $request->get('date'));
+                $form->get('date')->setData($startDay);
+            }
+    
+            if($request->get('time') != null){
+                $form->get('hour')->setData($request->get('time'));
+            }
+    
+            if($request->get('artist') != null){
+                $form->get('artist')->setData($request->get('artist'));
+            }
         }
 
         return $this->render('billeterie/form.html.twig', [

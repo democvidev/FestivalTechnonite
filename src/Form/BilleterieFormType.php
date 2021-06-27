@@ -38,7 +38,6 @@ class BilleterieFormType extends AbstractType
                 // this is actually the default format for single_text
                 'format' => 'yyyy-MM-dd',
                 'attr' => [
-                    'value'=> "2021-08-20",
                     'min' => "2021-08-20",
                     'max' => "2021-08-22",
                 ],

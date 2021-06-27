@@ -20,7 +20,9 @@
 					<td class="text-center">{{ item.Time }}</td>
 					<td class="text-center"><a class="btn btn-outline" href={{ path('artist_view', {'id':item['Artist']['id']} ) }}>{{ item['Artist']['name'] }}</a></td>
 					<td class="text-center">
-						<a href="{{ path('billeterie_form') }}" type="button" class="btn btn-primary">{{ item.Reservation }}</a>
+						<a href="{{ path('billeterie_form', {'date':item.Date, 'time':item.Time, 'artist':item['Artist']['name']}) }}" 
+						type="button" 
+						class="btn btn-primary">{{ item.Reservation }}</a>
 					</td>
 				</tr>
 			{% endfor %}
