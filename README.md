@@ -2,4 +2,5 @@
  
  Projet développé pendant ma formation chez Simplon
  
- https://democvidev.github.io/FestivalTechnonite/docs/Festival_Technonite.pdf
+ Téléchargez le cahier des charges:
+ https://github.com/democvidev/FestivalTechnonite/raw/main/docs/Festival_Technonite.pdf
