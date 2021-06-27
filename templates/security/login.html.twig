@@ -20,6 +20,7 @@
 				{% endif %}
 
 				<h1 class="h3 mb-3 font-weight-normal">Connectez-vous !</h1>
+				<p>Pas de compte ? <a class="btn-outline" href="{{ path('app_register') }}"> Enregistrez-vous !</a></p>
 				<label for="inputEmail">Email</label>
 				<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
 				<label for="inputPassword">Mot de passe</label>
