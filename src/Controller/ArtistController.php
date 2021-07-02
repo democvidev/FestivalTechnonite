@@ -15,11 +15,13 @@ class ArtistController extends AbstractController
 {
     /**
      * @Route("/artist", name="artist_home")
+     * @Route("/artist/category/{id}", name="artist_view_by_category", methods={"GET"}, requirements={"id"="\d+"})
      */
-    public function home(CategoryRepository $categoryRepository, ArtistRepository $artistRepository, Request $request, PaginatorInterface $paginator): Response
+    public function home(CategoryRepository $categoryRepository, ArtistRepository $artistRepository, Request $request, PaginatorInterface $paginator, $id=null): Response
     {
+
         // recupère le tableau remplie des objets par injection de dépendances
-        $data = $artistRepository->findAll();
+        $data = $id === null ? $artistRepository->findAll() : $artistRepository->findByCategory($id);
         $categories = $categoryRepository->findAll(); 
         $artists = $paginator->paginate(
             $data,
@@ -45,24 +47,5 @@ class ArtistController extends AbstractController
         return $this->render('artist/view.html.twig', [
             'artist' => $artist,
         ]);
-    }
-
-    /**
-     * @Route("/artist/category/{id}", name="artist_view_by_category", methods={"GET"}, requirements={"id"="\d+"})
-     */
-    public function viewByCategory($id, ArtistRepository $artistRepository, CategoryRepository $categoryRepository, Request $request, PaginatorInterface $paginator): Response
-    {
-        $data = $artistRepository->findByCategory($id);
-        $categories = $categoryRepository->findAll();
-        $artists = $paginator->paginate(
-            $data,
-            $request->query->get('page', 1), // nr de la page en cours, par défaut la page 1
-            9 // artists par page
-        );
-        // dd($artists);
-        return $this->render('artist/home.html.twig', [
-            'artists' => $artists,
-            'categories' => $categories
-        ]);
-    }
+    }   
 }

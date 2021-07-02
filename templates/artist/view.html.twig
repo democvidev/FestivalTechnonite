@@ -10,5 +10,10 @@
 </div>
 <div class="d-flex justify-content-center">
   <a href="{{ path('artist_home') }}" class="btn btn-primary px-5">Retour à la liste des artistes</a>
+   {# {% if app.request.query.get('agenda') %}
+      <a href="{{ path('billeterie_agenda') }}" type="button"class="btn btn-primary px-5">Retour à l'agenda des concerts</a>
+    {% else %}
+      <a href="{{ path('artist_home', {'page':1}) }}" type="button" class="btn btn-primary px-5">Retour à la liste des artistes</a>
+    {% endif %} #}
 </div>
 {% endblock %}
