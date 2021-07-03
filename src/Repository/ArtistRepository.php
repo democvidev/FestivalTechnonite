@@ -51,30 +51,26 @@ class ArtistRepository extends ServiceEntityRepository
 
 
 
-    // /**
-    //  * Undocumented function
-    //  *
-    //  * @param integer $nb
-    //  * @return void
-    //  */
-    // public function findByConcert(int $nb = 9)
-    // {
-    //     $entityManager = $this->getEntityManager();
+    /**
+     * Renvoie un nombre d'artistes par page
+     *
+     * @param integer $nb
+     * @return void
+     */
+    public function findByConcert(int $nb = 1)
+    {
+        $entityManager = $this->getEntityManager();
 
-    //     $query = $entityManager->createQuery(
-    //         // 'SELECT p.slug, p.title, p.createdAt
-    //         // FROM App\Entity\Post p
-    //         // WHERE p.active = :status
-    //         // ORDER BY p.createdAt ASC'
-    //         'SELECT a.id, a.name, a.concert, a.description 
-    //         FROM App\Entity\Artist a 
-    //         WHERE a.concert 
-    //         IS NOT NULL
-    //         GROUP BY a.concert'
-    //     )->setMaxResults($nb);
-    //     // dd($query->getResult());
-    //     return $query->getResult();
-    // }
+        $query = $entityManager->createQuery(            
+            'SELECT a.id, a.name, a.concert, a.description, a.slug 
+            FROM App\Entity\Artist a 
+            WHERE a.concert 
+            IS NOT NULL
+            GROUP BY a.concert'
+        )->setMaxResults($nb);
+        // dd($query->getResult());
+        return $query->getResult();
+    }
     
 
 

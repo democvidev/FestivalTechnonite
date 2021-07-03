@@ -40,11 +40,11 @@ class ArtistController extends AbstractController
     }
 
     /**
-     * @Route("/artist/{id}", name="artist_view", methods={"GET"}, requirements={"id"="\d+"})
+     * @Route("/artist/{slug}", name="artist_view", methods={"GET"})
      */
-    public function view($id): Response
+    public function view($slug): Response
     {
-        $artist = $this->getDoctrine()->getRepository(Artist::class)->findOneBy(['id'=>$id]);
+        $artist = $this->getDoctrine()->getRepository(Artist::class)->findOneBy(['slug'=>$slug]);
 
         return $this->render('artist/view.html.twig', [
             'artist' => $artist,

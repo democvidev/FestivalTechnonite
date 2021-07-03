@@ -22,7 +22,7 @@
 							{{ artist.name }}</h4>
 						<p class="card-text">{{ artist.description | u.truncate(100, '...') }}</p>
 						<p class="card-text">
-							<a href={{ path('artist_view', {'id':artist.id} ) }}>Decouvrir l'artiste</a>
+							<a href={{ path('artist_view', {'slug':artist.slug} ) }}>Decouvrir l'artiste</a>
 						</p>
 					</div>
 				</div>

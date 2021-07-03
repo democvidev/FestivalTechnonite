@@ -13,12 +13,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BilleterieController extends AbstractController
 {
+    private $artistsByPage = 9;
+
     /**
      * @Route("/agenda", name="billeterie_agenda")
      */
     public function agenda(ArtistRepository $artistRepository, ArtistHandler $artistHandler): Response
     {
-        $artists = $artistRepository->findByConcert(); // les artistes de tous les 9 concerts dans l'ordre ASC
+        $artists = $artistRepository->findByConcert($this->artistsByPage); // les artistes de tous les 9 concerts dans l'ordre ASC
         $agendaList = $artistHandler->handle($artists); // le service retourne l'agenda des concerts        
         return $this->render('billeterie/agenda.html.twig', [
             'agendaList' => $agendaList,
