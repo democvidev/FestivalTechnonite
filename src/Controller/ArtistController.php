@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Artist;
-use App\Entity\Category;
 use App\Repository\ArtistRepository;
 use App\Repository\CategoryRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -14,17 +13,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArtistController extends AbstractController
 {
+
+    private $artistRepository;
+
+    public function __construct(ArtistRepository $artistRepository)
+    {
+        $this->artistRepository = $artistRepository;
+    }
+
     /**
      * @Route("/artist", name="artist_home")
      * @Route("/artist/category/{slug}", name="artist_view_by_category", methods={"GET"})
      */
-    public function home(CategoryRepository $categoryRepository, ArtistRepository $artistRepository, Request $request, PaginatorInterface $paginator, $slug=null): Response
+    public function home(CategoryRepository $categoryRepository, Request $request, PaginatorInterface $paginator, $slug=null): Response
     {
 
         // recupère le tableau remplie des objets par injection de dépendances
         $data = $slug === null ?
-        $artistRepository->findAll() :
-        $artistRepository->findByCategorySlug($slug);
+        $this->artistRepository->findAll() :
+        $this->artistRepository->findByCategorySlug($slug);
 
         $categories = $categoryRepository->findAll(); 
         $artists = $paginator->paginate(
@@ -42,9 +49,9 @@ class ArtistController extends AbstractController
     /**
      * @Route("/artist/{slug}", name="artist_view", methods={"GET"})
      */
-    public function view($slug): Response
+    public function view($slug, ArtistRepository $artistRepository): Response
     {
-        $artist = $this->getDoctrine()->getRepository(Artist::class)->findOneBy(['slug'=>$slug]);
+        $artist = $artistRepository->findOneBy(['slug'=>$slug]);
 
         return $this->render('artist/view.html.twig', [
             'artist' => $artist,

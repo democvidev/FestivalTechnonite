@@ -13,14 +13,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BilleterieController extends AbstractController
 {
-    private $artistsByPage = 9;
-
     /**
      * @Route("/agenda", name="billeterie_agenda")
      */
     public function agenda(ArtistRepository $artistRepository, ArtistHandler $artistHandler): Response
     {
-        $artists = $artistRepository->findByConcert($this->artistsByPage); // les artistes de tous les 9 concerts dans l'ordre ASC
+        $artists = $artistRepository->findByConcert(); // les artistes de tous les 9 concerts dans l'ordre ASC
         $agendaList = $artistHandler->handle($artists); // le service retourne l'agenda des concerts        
         return $this->render('billeterie/agenda.html.twig', [
             'agendaList' => $agendaList,
@@ -30,23 +28,20 @@ class BilleterieController extends AbstractController
     /**
      * @Route("/billeterie", name="billeterie_form")
      */
-    public function form(
-        Request $request,
-        \Swift_Mailer $mailer,
-        UserInterface $user
-    ): Response {
+    public function form(Request $request, \Swift_Mailer $mailer): Response 
+    {
         $form = $this->createForm(BilleterieFormType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $data += ['email' => $user->getEmail()];
+            $data += ['email' => $this->getUser()->getEmail()];
             // dd($data);
 
             //fabriquation du mail
             $message = (new \Swift_Message('Nouvelle Réservation'))
                 //hydratation d'email
-                ->setFrom($user->getEmail())
+                ->setFrom($this->getUser()->getEmail())
                 ->setTo('admin@admin.com')
                 ->setBody(
                     $this->renderView('billeterie/email.html.twig', [

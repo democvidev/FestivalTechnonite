@@ -23,7 +23,7 @@ class ArtistRepository extends ServiceEntityRepository
      * Recherche les artistes en fonction du slug de la catégorie
      * @return Artist[] Returns an array of Artist objects
      */    
-    public function findByCategorySlug(string $categorySlug = null)
+    public function findByCategorySlug(string $categorySlug = null): array
     {
         $query = $this->createQueryBuilder('a'); // SELECT * FROM artist
             // ->select('a.id', 'a.name' , 'a.isLive', 'a.description', 'a.concert'); 
@@ -34,7 +34,29 @@ class ArtistRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
-    // /**
+
+    /**
+     * Renvoie un tableau avec un nombre d'artistes
+     *
+     * @param integer $nb
+     * @return void
+     */
+    public function findByConcert(int $nb = 1): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(            
+            'SELECT a.id, a.name, a.concert, a.description, a.slug 
+            FROM App\Entity\Artist a 
+            WHERE a.concert 
+            IS NOT NULL
+            GROUP BY a.concert'
+        )->setMaxResults($nb);
+        return $query->getResult();
+    }
+    
+
+     // /**
     //  * Recherche les artistes en fonction de la catégorie
     //  * @return Artist[] Returns an array of Artist objects
     //  */    
@@ -49,28 +71,6 @@ class ArtistRepository extends ServiceEntityRepository
     //     return $query->getQuery()->getResult();
     // }
 
-
-
-    /**
-     * Renvoie un nombre d'artistes par page
-     *
-     * @param integer $nb
-     * @return void
-     */
-    public function findByConcert(int $nb = 1)
-    {
-        $entityManager = $this->getEntityManager();
-
-        $query = $entityManager->createQuery(            
-            'SELECT a.id, a.name, a.concert, a.description, a.slug 
-            FROM App\Entity\Artist a 
-            WHERE a.concert 
-            IS NOT NULL
-            GROUP BY a.concert'
-        )->setMaxResults($nb);
-        // dd($query->getResult());
-        return $query->getResult();
-    }
     
 
 
