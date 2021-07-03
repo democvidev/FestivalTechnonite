@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Artist;
+use App\Entity\Category;
 use App\Repository\ArtistRepository;
 use App\Repository\CategoryRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -15,21 +16,22 @@ class ArtistController extends AbstractController
 {
     /**
      * @Route("/artist", name="artist_home")
-     * @Route("/artist/category/{id}", name="artist_view_by_category", methods={"GET"}, requirements={"id"="\d+"})
+     * @Route("/artist/category/{slug}", name="artist_view_by_category", methods={"GET"})
      */
-    public function home(CategoryRepository $categoryRepository, ArtistRepository $artistRepository, Request $request, PaginatorInterface $paginator, $id=null): Response
+    public function home(CategoryRepository $categoryRepository, ArtistRepository $artistRepository, Request $request, PaginatorInterface $paginator, $slug=null): Response
     {
 
         // recupère le tableau remplie des objets par injection de dépendances
-        $data = $id === null ? $artistRepository->findAll() : $artistRepository->findByCategory($id);
+        $data = $slug === null ?
+        $artistRepository->findAll() :
+        $artistRepository->findByCategorySlug($slug);
+
         $categories = $categoryRepository->findAll(); 
         $artists = $paginator->paginate(
             $data,
             $request->query->get('page', 1), // nr de la page en cours, par défaut la page 1
             9 // artists par page
         );
-
-        // dd($artists);
 
         return $this->render('artist/home.html.twig', [
             'artists' => $artists,
