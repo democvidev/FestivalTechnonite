@@ -34,7 +34,7 @@ class ArtistFixtures extends Fixture implements DependentFixtureInterface
             } else {
                 $artist->setConcert(null);
             }
-            $artist->setName($faker->lastName);
+            $artist->setName($faker->name);
             $artist->setDescription($faker->realText(5000));
             $manager->persist($artist);
         }
