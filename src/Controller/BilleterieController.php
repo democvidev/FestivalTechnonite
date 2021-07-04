@@ -13,12 +13,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BilleterieController extends AbstractController
 {
+
+    private $nbConcerts = 9;
+
     /**
      * @Route("/agenda", name="billeterie_agenda")
      */
     public function agenda(ArtistRepository $artistRepository, ArtistHandler $artistHandler): Response
     {
-        $artists = $artistRepository->findByConcert(); // les artistes de tous les 9 concerts dans l'ordre ASC
+        $artists = $artistRepository->findByConcert($this->nbConcerts); // les artistes de tous les 9 concerts dans l'ordre ASC
         $agendaList = $artistHandler->handle($artists); // le service retourne l'agenda des concerts        
         return $this->render('billeterie/agenda.html.twig', [
             'agendaList' => $agendaList,
@@ -36,7 +39,6 @@ class BilleterieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $data += ['email' => $this->getUser()->getEmail()];
-            // dd($data);
 
             //fabriquation du mail
             $message = (new \Swift_Message('Nouvelle Réservation'))

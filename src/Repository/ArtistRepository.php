@@ -44,7 +44,6 @@ class ArtistRepository extends ServiceEntityRepository
     public function findByConcert(int $nb = 1): array
     {
         $entityManager = $this->getEntityManager();
-
         $query = $entityManager->createQuery(            
             'SELECT a.id, a.name, a.concert, a.description, a.slug 
             FROM App\Entity\Artist a 
